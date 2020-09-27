@@ -50,17 +50,16 @@
     </style>
 </head>
 <script src="js/uuid.js"></script>
-	
+
 <script>
 	if(getCookie("UID")==null){
 		var uidInfo=uuid();
 		SetCookie("UID",uidInfo);
 	}
 	var uuid=getCookie("UID");
-	
 </script>
 
-<body>
+<body onLoad="refreshPage()">
 <div class="form text-center">
     <img class="mb-4" src="img/logo.png" alt="Maker Space Logo" width="72" height="72">
     <h1 class="h3 mb-3 font-weight-normal text-white">E<small>CUST</small> M<small>AKER</small> S<small>PACE</small></h1>
@@ -88,14 +87,13 @@
 </div>
 </body>
 
+
 <script src="js/jquery.min.js"></script>
 <script src="js/three.min.js"></script>
-<script src="js/three-waves.min.js"></script>
-<!--<script src="js/wave.js"></script>-->
+
 <script src="js/sha512.min.js"></script>
-
 <script src="js/toastr.min.js"></script>
-
+<script src="js/three-waves.min.js"></script>
 <script>
     let inputFlag = $("#inputFlag");
 	let checkButton = $("#checkButton");
@@ -123,10 +121,41 @@
         "showMethod": "fadeIn",
         "hideMethod": "fadeOut"
     };
+	function refreshPage(){
+		var cookieContent = sha512(getCookie("zhenbucuo"))
+		if(cookieContent!=null){
+			for (var i=0;i<3;i++){
+				if(cookieContent === hashed_flag[i]){
+					step =i ;
+					break;
+				}
+			}
+			if (step === 0) {
+                inputFlag.attr("placeholder", "Flag#2  starts  with  'MS:'")
+				point1.attr("class","iconfont icon-xianxingtubiao_xuanze")
+                step++;
+            } else if(step===1){
+                inputFlag.attr("placeholder", "Flag#3  starts  with  'MSNB:'")
+				point1.attr("class","iconfont icon-xianxingtubiao_xuanze")
+				point2.attr("class","iconfont icon-xianxingtubiao_xuanze")
+				hinthref.css("display", "inline")
+                step++;
+            } else if(step===2){
+                inputFlag.attr("placeholder", "Well Done. Take and Save a Shot!")
+				inputFlag.prop('disabled',true)
+				checkButton.css("display", "none")
+				hinthref.css("display", "none")
+				point1.attr("class","iconfont icon-xianxingtubiao_xuanze")
+				point2.attr("class","iconfont icon-xianxingtubiao_xuanze")
+				point3.attr("class","iconfont icon-xianxingtubiao_xuanze")
+            }
+		}
+	}
     function check() {
         let checked = sha512(inputFlag.val()) === hashed_flag[step];
         if (checked) {
-            inputFlag.css("border-color", "#39c5bb");
+			SetCookie("zhenbucuo",inputFlag.val())
+            inputFlag.css("border-color", "#39c5bb")
             if (step === 0) {
                 toastr["success"]("Try Further", "Correct Flag")
                 inputFlag.attr("placeholder", "Flag#2  starts  with  'MS:'")
