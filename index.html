@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Maker Space | Flag</title>
+    <link rel="icon" href="img/logo.png">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/toastr.min.css">
+	<link rel="stylesheet" href="css/iconfont.css">
+    <style>
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            display: -ms-flexbox;
+            display: -webkit-box;
+            display: flex;
+            -ms-flex-align: center;
+            -ms-flex-pack: center;
+            -webkit-box-align: center;
+            align-items: center;
+            -webkit-box-pack: center;
+            justify-content: center;
+            padding-top: 40px;
+            padding-bottom: 40px;
+            background-color: #222;
+        }
+		a{
+			display: none;
+		}
+
+        .form-control {
+            box-sizing: border-box;
+            background-color: #444;
+            color: #fff;
+            height: auto;
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        .form {
+            width: 100%;
+            max-width: 330px;
+            padding: 15px;
+            margin: 0 auto;
+        }
+
+    </style>
+</head>
+<script src="js/uuid.js"></script>
+	
+<script>
+	if(getCookie("UID")==null){
+		var uidInfo=uuid();
+		SetCookie("UID",uidInfo);
+	}
+	var uuid=getCookie("UID");
+	
+</script>
+
+<body>
+<div class="form text-center">
+    <img class="mb-4" src="img/logo.png" alt="Maker Space Logo" width="72" height="72">
+    <h1 class="h3 mb-3 font-weight-normal text-white">E<small>CUST</small> M<small>AKER</small> S<small>PACE</small></h1>
+    <div class="border-success">
+		<span>
+			 <span id="point1" class="iconfont icon-xianxingtubiao_weixuanzhong" style="vertical-align: middle;margin-left: 5px;line-height: 40px;"></span>
+			 <span id="point2" class="iconfont icon-xianxingtubiao_weixuanzhong" style="vertical-align: middle;margin-left: 3px;"></span>
+			<span id="point3" class="iconfont icon-xianxingtubiao_weixuanzhong" style="vertical-align: middle;margin-left: 3px;"></span>
+		</span>
+		<a href="https://pan.baidu.com/s/1Lnc69rAuUYXrQa6x-J0iaw" style="vertical-align: middle;margin-left: 5px;line-height: 40px;" target="_blank" id="hinthref" >R3v3r51ng hELL</a>
+        <label for="inputFlag"></label>
+        <input name="flag" type="password" id="inputFlag" class="form-control"
+               placeholder="Flag#1  starts  with  'M:'" maxlength="127" required>
+    </div>
+    <button class="btn btn-lg btn-outline-primary btn-block mt-3" id="checkButton" onclick="check()">Check</button>
+	<span style="vertical-align: middle;margin-left: 5px;line-height: 40px;color: deepskyblue;">
+		<script>
+    		document.write("UID: ");
+			document.write(uuid);
+		</script>
+	</span>
+</div>
+<div class="text-center fixed-bottom align-items-center" style="pointer-events: none">
+    <h6 class="text-muted">&copy; 2020, <img src="img/logo.png" alt="Maker Space Logo" width="24px"> ECUST  Maker Space.</h6>
+</div>
+</body>
+
+<script src="js/jquery.min.js"></script>
+<script src="js/three.min.js"></script>
+<script src="js/three-waves.min.js"></script>
+<!--<script src="js/wave.js"></script>-->
+<script src="js/sha512.min.js"></script>
+
+<script src="js/toastr.min.js"></script>
+
+<script>
+    let inputFlag = $("#inputFlag");
+	let checkButton = $("#checkButton");
+	let point1 = $("#point1");
+	let point2 = $("#point2");
+	let point3 = $("#point3");
+	let hinthref = $("#hinthref");
+    let step = 0;
+    let hashed_flag = ["a13ce40a53ef3ab6df39bb08a6c6461334a511899100faeb0d19379efff3f0a45341fcc2fe32b2d4adeba3a5d13cd68344b8eaad40c7b921af03795206eb5618", "02ae6ed2d841d49c5e0264c49cdc1025d55b45f84b28a35e1b55cea066140a8f4aab94e4e1888d0c6b50c40053cf012149c415bb690d00ec1bd517dbc0925f4d",	"1e749bb0d2597c81de7cf50abe0e8bcda41136a4504e13034690791c261aabd27a9f4b68891e47eacfddb446da70873f9eac6fe48bf7112fae2bf9e40a8541be"];
+
+    toastr.options = {
+        "closeButton": true,
+        "debug": false,
+        "newestOnTop": false,
+        "progressBar": true,
+        "positionClass": "toast-bottom-right",
+        "preventDuplicates": false,
+        "onclick": null,
+        "showDuration": "300",
+        "hideDuration": "300",
+        "timeOut": "3000",
+        "extendedTimeOut": "3000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    };
+    function check() {
+        let checked = sha512(inputFlag.val()) === hashed_flag[step];
+        if (checked) {
+            inputFlag.css("border-color", "#39c5bb");
+            if (step === 0) {
+                toastr["success"]("Try Further", "Correct Flag")
+                inputFlag.attr("placeholder", "Flag#2  starts  with  'MS:'")
+				point1.attr("class","iconfont icon-xianxingtubiao_xuanze")
+                step++;
+            } else if(step===1){
+                toastr["success"]("Try Further", "Correct Flag")
+                inputFlag.attr("placeholder", "Flag#3  starts  with  'MSNB:'")
+				point2.attr("class","iconfont icon-xianxingtubiao_xuanze")
+				hinthref.css("display", "inline")
+                step++;
+            } else if(step===2){
+                toastr["success"]("Well Done", "Correct Flag")
+                inputFlag.attr("placeholder", "Well Done. Take and Save a Shot!")
+				inputFlag.prop('disabled',true)
+				checkButton.css("display", "none")
+				hinthref.css("display", "none")
+				point3.attr("class","iconfont icon-xianxingtubiao_xuanze")
+            }
+        } else {
+            inputFlag.css("border-color", "#ee0000");
+            toastr["error"]("Try Harder", "Incorrect Flag")
+        }
+        inputFlag.val("");
+    }
+</script>
+</html>
