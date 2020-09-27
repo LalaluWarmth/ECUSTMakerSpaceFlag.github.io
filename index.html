@@ -123,24 +123,26 @@
     };
 	function refreshPage(){
 		var cookieContent = sha512(getCookie("zhenbucuo"))
+		var flag = 0;
 		if(cookieContent!=null){
 			for (var i=0;i<3;i++){
 				if(cookieContent === hashed_flag[i]){
 					step =i ;
+					flag =1 ;
 					break;
 				}
 			}
-			if (step === 0) {
+			if (step === 0 && flag ==1) {
                 inputFlag.attr("placeholder", "Flag#2  starts  with  'MS:'")
 				point1.attr("class","iconfont icon-xianxingtubiao_xuanze")
                 step++;
-            } else if(step===1){
+            } else if(step===1 && flag ==1){
                 inputFlag.attr("placeholder", "Flag#3  starts  with  'MSNB:'")
 				point1.attr("class","iconfont icon-xianxingtubiao_xuanze")
 				point2.attr("class","iconfont icon-xianxingtubiao_xuanze")
 				hinthref.css("display", "inline")
                 step++;
-            } else if(step===2){
+            } else if(step===2 && flag ==1){
                 inputFlag.attr("placeholder", "Well Done. Take and Save a Shot!")
 				inputFlag.prop('disabled',true)
 				checkButton.css("display", "none")
